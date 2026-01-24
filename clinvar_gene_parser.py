@@ -6,9 +6,10 @@ import re
 import sys
 import gzip
 
-
 from db_libs.read_sql import load_clinvar_table_defs
 from db_libs.utils_sqlite import open_db
+from db_libs.utils import clean_column_values
+
 
 def parse_header(line):
     """Parse the header line and return a mapping of column names to indices and VCF coordinate info."""
@@ -19,12 +20,6 @@ def parse_header(line):
     print("Header mapping loaded", header_mapping)
 
     return header_mapping
-
-def clean_column_values(column_values):
-    """Replace empty strings or '-' with None."""
-    return [None if not v or v == "-" else v for v in column_values]
-
-
 
 def insert_gene(cur, header_mapping, column_values):
     """Insert a gene row and return the new gene_id."""
@@ -51,6 +46,7 @@ def insert_gene(cur, header_mapping, column_values):
 
 
 def store_clinvar_file(db, clinvar_file):
+    
     with gzip.open(clinvar_file, "rt", encoding="utf-8") as cf:
         
         cur = db.cursor()
@@ -91,7 +87,7 @@ if __name__ == '__main__':
     clinvar_file = sys.argv[2]
 
     # Load Tables Schemas
-    clinvar_tables = load_clinvar_table_defs("schemas/clinvar_gene_specific.sql")
+    clinvar_tables = load_clinvar_table_defs("schemas/clinvar_gene.sql")
 
     # First, let's create or open the database
     db = open_db(db_file, clinvar_tables)

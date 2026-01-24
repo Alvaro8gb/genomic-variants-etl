@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS variant (
     variation_id INTEGER NOT NULL
 ) STRICT;
 
-CREATE INDEX coords_variant ON variant(chro_start,chro_stop,chro);
+CREATE INDEX coords_variant ON variant(chro_start, chro_stop, chro);
 
 CREATE INDEX assembly_variant ON variant(assembly);
 
