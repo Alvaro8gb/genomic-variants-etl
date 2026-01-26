@@ -51,6 +51,7 @@ def insert_variant(cur, header_mapping, column_values, ref_allele_col, alt_allel
         VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (allele_id, name, allele_type, dbSNP_id, phenotype_list, gene_id, gene_symbol, hgnc_id,
           assembly, chro, chro_start, chro_stop, ref_allele, alt_allele, cytogenetic, variation_id))
+    
     return cur.lastrowid
 
 
@@ -104,7 +105,8 @@ def insert_variant_phenotypes(cur, ventry_id, variant_pheno_str, allele_id, asse
                         f"DEBUG: {allele_id} {assembly} {variant_annot}\n\t{variant_pheno_str}\n\t{line}", file=sys.stderr)
 
         cur.executemany("""
-            INSERT INTO variant_phenotypes(ventry_id, phen_group_id, phen_ns, phen_id) VALUES(?,?,?,?)
+            INSERT INTO variant_phenotypes(ventry_id, phen_group_id, phen_ns, phen_id) 
+            VALUES(?,?,?,?)
         """, prep_pheno)
 
 
@@ -121,7 +123,7 @@ def store_clinvar_file(db, clinvar_file):
         with db:
             for i, line in enumerate(cf):
 
-                if i % 10_000 == 0:
+                if i % 1000 == 0:
                     print(f"Processed {i} lines...")
 
                 wline = line.rstrip("\n")

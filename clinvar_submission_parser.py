@@ -13,7 +13,6 @@ from db_libs.utils import is_header_line, parse_header, clean_column_values, tex
 
 DDL_TABLE = "schemas/clinvar_submission.sql"
 
-
 def extract_pmids(text: str):
     pmids = re.findall(r'PMID:\s*(\d+)', text)
     return set(pmids)
@@ -59,12 +58,12 @@ def insert_submission(cur, header_mapping, column_values):
         pmids = extract_pmids(description)
 
         if pmids:
-            for pmid in pmids:
-                cur.execute("""
+            variants_pmids = [ (submission_id, pmid) for pmid in pmids]
+            cur.executemany("""
                     INSERT INTO variant_pmid (
                         submission_id, pmid
                     ) VALUES (?, ?)
-                """, (submission_id, pmid))
+                """, variants_pmids)
 
 
 def store_clinvar_file(db, clinvar_file):
