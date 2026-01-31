@@ -26,11 +26,12 @@ def get_and_check_paths():
     return db_file, data_file
 
 
-if __name__ == "__main__":
-    try:
-        db_file, clinvar_file = get_and_check_paths()
-        print(f"Database file: {db_file}")
-        print(f"ClinVar file: {clinvar_file}")
-    except FileExistsError as e:
-        print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1)
+
+def load_clinvar_table_defs(sql_file_path:str):
+    with open(sql_file_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    # Split statements by semicolon followed by a newline (handles multi-line statements)
+    statements = [stmt.strip()
+                  for stmt in content.split(";\n") if stmt.strip()]
+
+    return statements

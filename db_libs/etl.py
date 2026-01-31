@@ -1,6 +1,5 @@
-from db_libs.read_sql import load_clinvar_table_defs
 from db_libs.utils_sqlite import open_db
-from db_libs.io import get_and_check_paths
+from db_libs.io import get_and_check_paths, load_clinvar_table_defs
 
 
 def main(etl, ddl_query):
