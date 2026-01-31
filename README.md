@@ -10,13 +10,41 @@ wget https://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/archive/submission_s
 wget https://civicdb.org/downloads/01-Jan-2026/01-Jan-2026-VariantSummaries.tsv
 ```
 
+Clinvar:
 ```bash
 python clinvar_variant_parser.py  ./dumps/clinvar_variant.db data/clinvar/variant_summary_2025-01.txt.gz
+python clinvar_gene_parser.py dumps/clinvar_gene.db data/clinvar/gene_specific_summary_2025-01.txt.gz
+
+```
+Civic:
+```bash
+python civic_variant_parser.py dumps/civiv_variant.db data/civic/01-Jan-2026-VariantSummaries.tsv
 ```
 
-```bash
-python clinvar_gene_parser.py dumps/clinvar_gene.db data/clinvar/gene_specific_summary_2025-01.txt.gz
-```
+## Allele Registry
+
+### Canonical Allele Identifier
+e.g. CA251355
+https://reg.clinicalgenome.org/
+
+
+El **Canonical Allele Identifier (CAID)** es un identificador único, permanente y universal asignado a una variante genética específica.
+
+Su función principal es servir como un **"ancla de identidad"** en bioinformática. En genética, una misma variante puede tener nombres distintos dependiendo de:
+
+* La **versión del genoma** utilizada (ej. GRCh37 vs. GRCh38).
+* La **secuencia de referencia** (si se mira el ADN genómico, el ARNm o la proteína).
+* El **software** que la nombre.
+
+El CAID conecta todas esas descripciones diferentes bajo un solo código "canónico" para asegurar que todos los científicos y bases de datos hablen de lo mismo.
+
+¿Para qué sirve?
+
+* **Interoperabilidad:** Permite que diferentes bases de datos (como ClinVar, gnomAD y dbSNP) intercambien información sin errores.
+* **Permanencia:** Si la versión del genoma humano se actualiza, el nombre HGVS puede cambiar, pero el CAID permanece igual.
+* **Claridad clínica:** Evita que un laboratorio clasifique una variante como "benigna" y otro como "patogénica" simplemente porque la están llamando de forma distinta.
+
+
 
 ## Clinvar
 

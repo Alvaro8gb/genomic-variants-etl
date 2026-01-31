@@ -45,7 +45,7 @@ def insert_variant(cur, header_mapping, row_values, ref_allele_col, alt_allele_c
     """Insert a variant row and return the new ventry_id."""
     variant_id = int(row_values[header_mapping["VariationID"]])
     allele_id = int(row_values[header_mapping["AlleleID"]])
-    variant_name = row_values[header_mapping["Name"]]
+    hgvs_id = row_values[header_mapping["Name"]]
     variant_type = row_values[header_mapping["Type"]]
     dbsnp_id = row_values[header_mapping["RS# (dbSNP)"]]
     phenotype_list = row_values[header_mapping["PhenotypeList"]]
@@ -60,10 +60,10 @@ def insert_variant(cur, header_mapping, row_values, ref_allele_col, alt_allele_c
     
     cur.execute("""
         INSERT INTO variant (
-            variant_id, allele_id, variant_name, variant_type, dbsnp_id, phenotype_list, gene_symbol,
+            allele_id, hgvs_id, variant_id, variant_type, dbsnp_id, phenotype_list, gene_symbol,
             assembly, chro, chro_start, chro_stop, ref_allele, alt_allele, cytogenetic)
         VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-    """, (variant_id, allele_id, variant_name, variant_type, dbsnp_id, phenotype_list, gene_symbol,
+    """, (allele_id, hgvs_id, variant_id, variant_type, dbsnp_id, phenotype_list, gene_symbol,
           assembly, chro, chro_start, chro_stop, ref_allele, alt_allele, cytogenetic))
     
     ventry_id = cur.lastrowid

@@ -7,7 +7,8 @@ def none_for_unique(value):
 
 def clean_row_values(row_values:list[str]):
     """Replace empty strings or '-' with None."""
-    return [None if not v or v == "-" or v == "na" else v for v in row_values]
+    null_values = {"", "-", "na", "n/a"}
+    return [None if (v is None or str(v).strip().lower() in null_values) else v for v in row_values]
 
 
 def is_header_line(line:str, required_columns=["VariationID", "ClinicalSignificance"]):
