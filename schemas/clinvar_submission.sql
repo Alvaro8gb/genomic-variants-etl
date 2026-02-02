@@ -1,5 +1,5 @@
 CREATE TABLE
-    IF NOT EXISTS clinvar_submission (
+    IF NOT EXISTS submission (
         submission_id INTEGER PRIMARY KEY AUTOINCREMENT,
         variant_id INTEGER,
         clinical_significance TEXT,
@@ -22,5 +22,5 @@ CREATE TABLE
     variant_pmid (
         submission_id INTEGER,
         pmid INTEGER,
-        FOREIGN KEY (submission_id) REFERENCES clinvar_submission (submission_id) ON DELETE CASCADE ON UPDATE CASCADE
+        FOREIGN KEY (submission_id) REFERENCES submission (submission_id) ON DELETE CASCADE ON UPDATE CASCADE
     );

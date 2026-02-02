@@ -34,7 +34,7 @@ def insert_submission(cur, header_mapping, row_values):
     oncogenicity = row_values[header_mapping["Oncogenicity"]]
 
     cur.execute("""
-        INSERT INTO clinvar_submission (
+        INSERT INTO submission (
             variant_id, clinical_significance, date_last_evaluated, description,
             submitted_phenotype_info, reported_phenotype_info, review_status, collection_method,
             origin_counts, submitter, scv, submitted_gene_symbol, explanation_of_interpretation,
@@ -53,12 +53,11 @@ def insert_submission(cur, header_mapping, row_values):
         pmids = extract_pmids(description)
 
         if pmids:
-            variants_pmids = [ (submission_id, pmid) for pmid in pmids]
             cur.executemany("""
                     INSERT INTO variant_pmid (
                         submission_id, pmid
                     ) VALUES (?, ?)
-                """, variants_pmids)
+                """, [ (submission_id, pmid) for pmid in pmids])
 
 
 def etl(db, clinvar_file):
