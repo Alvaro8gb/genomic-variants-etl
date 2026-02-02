@@ -31,14 +31,6 @@ CREATE INDEX assembly_variant ON variant (assembly);
 
 CREATE INDEX gene_symbol_variant ON variant (gene_symbol);
 
-CREATE TABLE
-    IF NOT EXISTS gene2variant (
-        ventry_id INTEGER,
-        gene_symbol TEXT NOT NULL,
-        PRIMARY KEY (ventry_id, gene_symbol),
-        FOREIGN KEY (gene_symbol) REFERENCES gene (gene_symbol) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (ventry_id) REFERENCES variant (ventry_id) ON DELETE CASCADE ON UPDATE CASCADE
-    ) STRICT;
 
 CREATE TABLE
     IF NOT EXISTS clinical_sig (

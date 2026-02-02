@@ -66,15 +66,17 @@ Suele pasar con:
 ```sql
 
 SELECT 
-	COUNT(variant_id)
+    COUNT(DISTINCT variant_id)
 FROM variant
 WHERE 
-	gene_symbol LIKE "%P53%" AND 
-	assembly = 'GRCh38';
+    gene_symbol IN ('TP53', 
+    'P53', 'BCC7', 'LFS1', 
+    'BMFS5', 'TRP53')  -- https://www.ncbi.nlm.nih.gov/gene/7157
+    AND assembly = 'GRCh38';
 
 ```
 
-CLinvar: 5,615
+CLinvar: 3,758
 Civic: 0
 
 ### 2. ¿Qué cambio del tipo “single nucleotide variant” es más frecuente, el de una Guanina por una Adenina, o el una Guanina por una Timina? Usad las anotaciones basadas en el ensamblaje GRCh37 para cuantificar y proporcionar los números totales, tanto para ClinVar como para CIViC.

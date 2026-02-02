@@ -63,14 +63,6 @@ def insert_variant(cur, header_mapping, row_values, ref_allele_col, alt_allele_c
 
     ventry_id = cur.lastrowid
 
-    if gene_symbol is not None:
-        cur.execute("""
-                INSERT INTO gene2variant (
-                    ventry_id,
-                    gene_symbol)
-                VALUES(?,?)
-            """, (ventry_id, gene_symbol))
-
     return ventry_id
 
 

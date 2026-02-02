@@ -33,6 +33,8 @@ def open_db(db_file, tables):
         # And create the tables, in case they were not previously
         # created in a previous use
         for table in tables:
+            print("Procesing", "\n-\n", table[:40], "\n-\n")
+
             cur.execute(table)
 
     except sqlite3.Error as e:
