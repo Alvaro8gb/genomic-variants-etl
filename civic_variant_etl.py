@@ -80,7 +80,6 @@ def etl(db, clinvar_file):
 
         cur.close()
 
-
 if __name__ == '__main__':
-    ddl_table_path = "schemas/civiv_variant.sql"
+    ddl_table_path = "schemas/civic_variant.sql"
     main(etl, ddl_table_path)
