@@ -27,6 +27,6 @@ python clinvar_submission_etl.py \
  
 
 python civic_variant_etl.py \
-    $DUMP_PATH/civiv_variant.db \
+    $DUMP_PATH/civic_variant.db \
     $DATA_PATH_CIVIC/$DATE_CIVIC-VariantSummaries.tsv
 

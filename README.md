@@ -370,7 +370,7 @@ Frequency of mutations
 ### Civic
 
 ```bash
-python freq_variants.py dumps/civiv_variant.db
+python freq_variants.py dumps/civic_variant.db
 ```
 
 Variants per chro and assembly
