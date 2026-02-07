@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 
 
-def none_for_unique(value): 
+def none_default(value): 
     return -1 if value is None else value
 
 def clean_row_values(row_values:list[str]):

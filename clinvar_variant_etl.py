@@ -3,7 +3,7 @@ import sys
 import gzip
 
 from db_libs.etl import main
-from db_libs.utils import clean_row_values, none_for_unique
+from db_libs.utils import clean_row_values, none_default
 
 
 def parse_header(line):
@@ -22,10 +22,11 @@ def parse_header(line):
 
 
 def insert_gene(cur, gene_symbol, gene_id, hgnc_id):
+    
     if gene_symbol is not None:
 
-        hgnc_id = none_for_unique(hgnc_id)
-        gene_id = int(none_for_unique(gene_id))
+        hgnc_id = none_default(hgnc_id)
+        gene_id = int(none_default(gene_id))
 
         cur.execute("""
             INSERT INTO gene(
@@ -46,9 +47,9 @@ def insert_variant(cur, header_mapping, row_values, ref_allele_col, alt_allele_c
     phenotype_list = row_values[header_mapping["PhenotypeList"]]
     gene_symbol = row_values[header_mapping["GeneSymbol"]]
     assembly = row_values[header_mapping["Assembly"]]
-    chro = none_for_unique(row_values[header_mapping["Chromosome"]])
-    chro_start = int(none_for_unique(row_values[header_mapping["Start"]]))
-    chro_stop = int(none_for_unique(row_values[header_mapping["Stop"]]))
+    chro = none_default(row_values[header_mapping["Chromosome"]])
+    chro_start = int(none_default(row_values[header_mapping["Start"]]))
+    chro_stop = int(none_default(row_values[header_mapping["Stop"]]))
     ref_allele = row_values[ref_allele_col]
     alt_allele = row_values[alt_allele_col]
     cytogenetic = row_values[header_mapping["Cytogenetic"]]
@@ -124,10 +125,10 @@ def insert_variant_phenotypes(cur, ventry_id, variant_pheno: str, allele_id, ass
         """, prep_pheno)
 
 
-def etl(db, clinvar_file):
+def etl(db, file):
     known_genes = set()
 
-    with gzip.open(clinvar_file, "rt", encoding="utf-8") as cf:
+    with gzip.open(file, "rt", encoding="utf-8") as cf:
 
         header_mapping = None
         cur = db.cursor()
@@ -181,5 +182,5 @@ def etl(db, clinvar_file):
 
 
 if __name__ == '__main__':
-    ddl_table_path = "schemas/clinvar_variant.sql"
+    ddl_table_path = "schemas/clinvar/clinvar_variant.sql"
     main(etl, ddl_table_path)

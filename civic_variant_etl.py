@@ -1,7 +1,7 @@
 import re
 
 from db_libs.etl import main
-from db_libs.utils import clean_row_values, parse_header, none_for_unique
+from db_libs.utils import clean_row_values, parse_header, none_default
 
 
 def insert_feature(cur, feature_id: int, header_mapping, row_values):
@@ -27,9 +27,9 @@ def insert_variant(cur, variant_id: int, feature_id: int, header_mapping, row_va
     caid = row_values[header_mapping["allele_registry_id"]]
     gene_symbol = row_values[header_mapping["gene"]]
     entrez_id = row_values[header_mapping["entrez_id"]]
-    chro = none_for_unique(row_values[header_mapping["chromosome"]])
-    chro_start = int(none_for_unique(row_values[header_mapping["start"]]))
-    chro_stop = int(none_for_unique(row_values[header_mapping["stop"]]))
+    chro = none_default(row_values[header_mapping["chromosome"]])
+    chro_start = int(none_default(row_values[header_mapping["start"]]))
+    chro_stop = int(none_default(row_values[header_mapping["stop"]]))
     ref_allele = row_values[header_mapping["reference_bases"]]
     alt_allele = row_values[header_mapping["variant_bases"]]
     ensembl_version = row_values[header_mapping["ensembl_version"]]
@@ -50,11 +50,11 @@ def insert_variant(cur, variant_id: int, feature_id: int, header_mapping, row_va
           ensembl_version, assembly))
 
 
-def etl(db, clinvar_file):
+def etl(db, file):
 
     known_features = set()
 
-    with open(clinvar_file, "rt", encoding="utf-8") as cf:
+    with open(file, "rt", encoding="utf-8") as cf:
 
         first_line = next(cf)
         header_mapping = parse_header(first_line)
@@ -82,5 +82,5 @@ def etl(db, clinvar_file):
 
 
 if __name__ == '__main__':
-    ddl_table_path = "schemas/civiv_variant.sql"
+    ddl_table_path = "schemas/civic/civiv_variant.sql"
     main(etl, ddl_table_path)

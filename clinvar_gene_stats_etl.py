@@ -28,9 +28,9 @@ def insert_gene_stats(cur, header_mapping, row_values):
     ))
 
 
-def etl(db, clinvar_file):
+def etl(db, file):
 
-    with gzip.open(clinvar_file, "rt", encoding="utf-8") as cf:
+    with gzip.open(file, "rt", encoding="utf-8") as cf:
 
         cur = db.cursor()
         next(cf)  # skip the first line as is a comment
@@ -57,5 +57,5 @@ def etl(db, clinvar_file):
 
 
 if __name__ == '__main__':
-    ddl_table_path = "schemas/clinvar_gene.sql"
+    ddl_table_path = "schemas/clinvar/clinvar_gene.sql"
     main(etl, ddl_table_path)

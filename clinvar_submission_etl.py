@@ -60,8 +60,8 @@ def insert_submission(cur, header_mapping, row_values):
                 """, [ (submission_id, pmid) for pmid in pmids])
 
 
-def etl(db, clinvar_file):
-    with gzip.open(clinvar_file, "rt", encoding="utf-8") as cf:
+def etl(db, file):
+    with gzip.open(file, "rt", encoding="utf-8") as cf:
 
         cur = db.cursor()
 
@@ -92,5 +92,5 @@ def etl(db, clinvar_file):
 
 if __name__ == '__main__':
 
-    ddl_table_path = "schemas/clinvar_submission.sql"
+    ddl_table_path = "schemas/clinvar/clinvar_submission.sql"
     main(etl, ddl_table_path)

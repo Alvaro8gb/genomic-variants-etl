@@ -35,12 +35,17 @@ echo "---"
 echo "DEBUG: Creando directorio CIViC en: $DATA_PATH_CIVIC"
 mkdir -p "$DATA_PATH_CIVIC"
 
+files_civic=(
+    "$DATE_CIVIC-VariantSummaries.tsv"
+    "$DATE_CIVIC-ClinicalEvidenceSummaries.tsv"
+    "$DATE_CIVIC-MolecularProfileSummaries.tsv"
+)
 
-CIVIC_FILE="$DATE_CIVIC-VariantSummaries.tsv"
-CIVIC_FULL_URL="$CIVIC_URL/$DATE_CIVIC/$CIVIC_FILE"
+for file in "${files_civic[@]}"; do
+    file_url="$CIVIC_URL/$DATE_CIVIC/$file"
+    echo "DEBUG: Intentando descargar: $file_url"
+    wget -nc -P "$DATA_PATH_CIVIC" "$file_url"
+    hash=$(md5sum $DATA_PATH_CIVIC/$file | awk '{ print $1 }')
+    echo "MD5:  $hash"
+done
 
-echo "DEBUG: Descargando CIViC desde: $CIVIC_FULL_URL"
-wget -nc -P "$DATA_PATH_CIVIC" "$CIVIC_FULL_URL"
-
-hash=$(md5sum $DATA_PATH_CIVIC/$CIVIC_FILE | awk '{ print $1 }')
-echo "MD5:  $hash"
