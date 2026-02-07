@@ -14,5 +14,5 @@ FROM (
             OR (vp.phen_ns = 'MeSH' AND vp.phen_id = 'D005909')
         ) 
 ) v 
-JOIN subs.submission s ON v.variant_id = s.variant_id 
-JOIN subs.submission_pmid sp ON s.submission_id = sp.submission_id; 
+JOIN submission s ON v.variant_id = s.variant_id 
+JOIN submission_pmid sp ON s.submission_id = sp.submission_id; 
