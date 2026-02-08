@@ -1,70 +1,14 @@
 # Genomic Variants ETL
 
-## Allele Registry
+## Descripción
 
-### Canonical Allele Identifier
-e.g. CA251355
-https://reg.clinicalgenome.org/
+Proyecto ETL (Extract, Transform, Load) para procesar y almacenar datos de variantes genómicas provenientes de las bases de datos **ClinVar** y **CiVIC**. 
 
+El sistema extrae información sobre variantes genéticas, genes, fenotipos clínicos y evidencias moleculares, transformándola y cargándola en una base de datos estructurada para facilitar su análisis y consulta.
 
-El **Canonical Allele Identifier (CAID)** es un identificador único, permanente y universal asignado a una variante genética específica.
+### Fuentes de datos
 
-Su función principal es servir como un **"ancla de identidad"** en bioinformática. En genética, una misma variante puede tener nombres distintos dependiendo de:
+- **ClinVar**: Base de datos de variantes genéticas y su relación con fenotipos clínicos
+- **CiVIC**: Base de datos de variantes genéticas con significancia clínica en oncología
 
-* La **versión del genoma** utilizada (ej. GRCh37 vs. GRCh38).
-* La **secuencia de referencia** (si se mira el ADN genómico, el ARNm o la proteína).
-* El **software** que la nombre.
-
-El CAID conecta todas esas descripciones diferentes bajo un solo código "canónico" para asegurar que todos los científicos y bases de datos hablen de lo mismo.
-
-¿Para qué sirve?
-
-* **Interoperabilidad:** Permite que diferentes bases de datos (como ClinVar, gnomAD y dbSNP) intercambien información sin errores.
-* **Permanencia:** Si la versión del genoma humano se actualiza, el nombre HGVS puede cambiar, pero el CAID permanece igual.
-* **Claridad clínica:** Evita que un laboratorio clasifique una variante como "benigna" y otro como "patogénica" simplemente porque la están llamando de forma distinta.
-
-
-
-## Clinvar
-
-
-### Qué significa `gene_id = -1` ?
-
-> Indica que la variante **no está asignada de forma inequívoca a un gen específico.**
-
-- Variante intergénica: Está entre genes, no dentro de uno conocido.
-
-- Región reguladora o no codificante: Por ejemplo: upstream/downstream, intrones profundos, regiones promotoras sin asignación clara.
-- Variante estructural o grande
-- Deleciones/duplicaciones que abarcan varios genes o regiones amplias
-- Información incompleta o ambigua en ClinVar
-
-
-
-### Qué significa `position_vcf = -1` y `ref_allele = na`
-
-> indica que **no puede representarse como una variante genómica estándar en formato VCF**.
-
-Esto ocurre porque:
-
-* ClinVar **no puede asignar una posición genómica única**
-* No es una **SNV ni un indel simple**
-* No se puede definir **REF/ALT**
-
-Suele pasar con:
-
-* Variantes descritas solo a nivel **proteico o cDNA**
-* Variantes **estructurales o complejas**
-* Grandes deleciones/duplicaciones o descripciones antiguas
-
-
-## Civic 
-
-### DOID 
-
-https://www.ebi.ac.uk/ols4/ontologies/doid
-
-El DOID (Disease Ontology ID) es el ID universal de una enfermedad.
-
-- Función: Estandariza los nombres de los cánceres (ej. DOID:8552 para Leucemia Mieloide Crónica).
-- Utilidad: Permite que tu base de datos sea compatible con otros sistemas hospitalarios y de investigación a nivel mundial.
+Para más información detallada sobre los conceptos y estructura de datos, consulta el [Manual](manual.md).
