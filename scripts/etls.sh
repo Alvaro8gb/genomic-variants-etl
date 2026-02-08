@@ -32,10 +32,11 @@ python civic_variant_etl.py \
 
 
 python civic_molecular_etl.py \
-    $DUMP_PATH/civiv_molecular.db \
+    $DUMP_PATH/civic_molecular.db \
     $DATA_PATH_CIVIC/$DATE_CIVIC-MolecularProfileSummaries.tsv
 
+
 python civic_clinical_etl.py \
-    $DUMP_PATH/civiv_clinical.db \
+    $DUMP_PATH/civic_clinical.db \
     $DATA_PATH_CIVIC/$DATE_CIVIC-ClinicalEvidenceSummaries.tsv
 

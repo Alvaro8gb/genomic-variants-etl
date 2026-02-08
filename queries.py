@@ -2,7 +2,8 @@ import pandas as pd
 
 class Query:
     """Base class for SQL queries"""
-
+    MAX_ROWS = 10
+    
     def execute(self, cursor, query: str):
         """Execute a given query method and return results"""
         try:
@@ -10,9 +11,10 @@ class Query:
             cursor.execute(query)
             results = cursor.fetchall()
             columns = [col[0] for col in cursor.description]
-            print("\t".join(columns))
-            for result in results[:10]:  # Print only the first 10 results for brevity
-                print("\t".join(str(item) for item in result))
+            
+            print(pd.DataFrame(results[:self.MAX_ROWS], 
+                               columns=columns).to_markdown(index=False))
+            
             if len(results) > 10:
                 print(f"... 10 results of {len(results)}")
         except Exception as e:
@@ -53,15 +55,7 @@ class Query:
         """
         query = self.read_query_from_file("queries/query_3.sql")
         self.execute(cursor, query)
-    
-    def query_4(self, cursor, conn):
-        """
-        ¿Cuál es la deleción más común en el cáncer hereditario de mama en CIViC? ¿Y en
-        ClinVar? Por favor, incluye en la respuesta además en qué genoma de referencia, el
-        número de veces que ocurre, el alelo de referencia y el observado.
-        """
-        query = self.read_query_from_file("queries/query_4.sql")
-        self.execute(cursor, query)
+
     
     def query_5(self, cursor, conn):
         """
@@ -172,10 +166,24 @@ class Query:
         print(df_freq_pivot.to_markdown(index=False))
 
 class ClinvarQuery(Query):
-    """ClinVar database queries"""
-    pass
+    """ClinVar specific queries"""
+    def query_4(self, cursor, conn):
+        """
+        ¿Cuál es la deleción más común en el cáncer hereditario de mama en CIViC? ¿Y en
+        ClinVar? Por favor, incluye en la respuesta además en qué genoma de referencia, el
+        número de veces que ocurre, el alelo de referencia y el observado.
+        """
+        query = self.read_query_from_file("queries/query_4_clinvar.sql")
+        self.execute(cursor, query)
 
 
 class CivicQuery(Query):
-    """Variant-specific queries"""
-    pass
+    """CiVic specific queries"""
+    def query_4(self, cursor, conn):
+        """
+        ¿Cuál es la deleción más común en el cáncer hereditario de mama en CIViC? ¿Y en
+        ClinVar? Por favor, incluye en la respuesta además en qué genoma de referencia, el
+        número de veces que ocurre, el alelo de referencia y el observado.
+        """
+        query = self.read_query_from_file("queries/query_4_civic.sql")
+        self.execute(cursor, query)
